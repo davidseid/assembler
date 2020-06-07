@@ -8,7 +8,7 @@ fn main() {
     let args: Vec<String> = env::args().collect();
 
     println!("Parsing assembly file: {}", &args[1]);
-    let fileParser = Parser::new("./Add.asm");
+    let fileParser = Parser::new(&args[1]);
 
     let more = fileParser.has_more_commands();
 }
