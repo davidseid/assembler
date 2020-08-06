@@ -14,7 +14,7 @@ fn main() {
 }
 
 struct Parser {
-    lines: io::Lines<BufReader<File>>,
+    lines: Vec<String>,
 }
 
 impl Parser {
@@ -22,12 +22,24 @@ impl Parser {
         let file = File::open(filename).unwrap();
         let reader = BufReader::new(file);
 
+        let mut lines = Vec::new();
+
+        for line in reader.lines() {
+            if let Ok(line) = line {
+                println!("{}", line);
+                lines.push(line);
+            }
+        }
+
         Parser{
-            lines: reader.lines(),
+            lines,
         }
     }
 
     fn has_more_commands(&self) -> bool {
-        true
+        if self.lines.len() > 0 {
+            return true;
+        }
+        false
     }
 }
