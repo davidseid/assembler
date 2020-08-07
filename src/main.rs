@@ -1,4 +1,4 @@
-use std::io::{self, BufReader, BufRead};
+use std::io::{BufReader, BufRead};
 use std::fs::File;
 use std::env;
 
