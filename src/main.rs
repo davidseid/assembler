@@ -28,6 +28,15 @@ impl Parser {
 
         for line in reader.lines() {
             if let Ok(line) = line {
+
+                if line.starts_with("//") {
+                    continue;
+                }
+
+                if line.is_empty() {
+                    continue;
+                }
+
                 println!("{}", line);
                 lines.push(line);
             }
