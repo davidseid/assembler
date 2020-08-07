@@ -11,6 +11,8 @@ fn main() {
     let file_parser = Parser::new(&args[1]);
 
     let _more = file_parser.has_more_commands();
+
+    println!("{}",_more)
 }
 
 struct Parser {
