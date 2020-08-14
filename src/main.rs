@@ -17,7 +17,7 @@ fn main() {
 
 struct Parser {
     lines: Vec<String>,
-    current_command: Option<String>
+    current_command_index: Option<u8>
 }
 
 impl Parser {
@@ -45,7 +45,7 @@ impl Parser {
 
         Parser{
             lines,
-            current_command: None,
+            current_command_index: None,
         }
     }
 
