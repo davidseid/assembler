@@ -50,11 +50,11 @@ impl Parser {
     }
 
     fn has_more_commands(&self) -> bool {
-        if self.lines.len() > 0 {
-            return true;
-        }
-        false
+        !self.lines.is_empty()
     }
 
+    // fn advance(mut &self) {
+        
+    // }
 
 }
