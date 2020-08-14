@@ -17,7 +17,7 @@ fn main() {
 
 struct Parser {
     lines: Vec<String>,
-    current_command_index: Option<u8>
+    current_command_index: Option<usize>
 }
 
 impl Parser {
@@ -50,7 +50,11 @@ impl Parser {
     }
 
     fn has_more_commands(&self) -> bool {
-        !self.lines.is_empty()
+
+        match self.current_command_index {
+            Some(index) => index < self.lines.len(),
+            None => true,
+        }
     }
 
     // fn advance(mut &self) {
