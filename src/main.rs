@@ -27,7 +27,8 @@ enum Command {
 
 struct Parser {
     lines: Vec<String>,
-    current_command_index: Option<usize>
+    current_command_index: Option<usize>,
+    current_command: Option<String>,
 }
 
 impl Parser {
@@ -56,6 +57,7 @@ impl Parser {
         Parser{
             lines,
             current_command_index: None,
+            current_command: None,
         }
     }
 
@@ -69,24 +71,38 @@ impl Parser {
     fn advance(&mut self) {
         println!("{:?}", self.current_command_index);
         match self.current_command_index {
-            Some(index) => self.current_command_index = Some(index+1),
-            None => self.current_command_index = Some(0),
+            Some(index) => {
+                self.current_command_index = Some(index+1);
+            },
+            None => {
+                self.current_command_index = Some(0);
+            }
         }
+
+        let command_ref = &self.lines[self.current_command_index.unwrap()];
+        self.current_command = Some(String::from(command_ref));
+
     }
 
     fn command_type(&self) -> Command {
 
-        let index = self.current_command_index.unwrap();
-        let current_command = &self.lines[index];
-
-        if current_command.starts_with("@") {
+        let command = self.current_command.as_ref().unwrap();
+        if command.starts_with("@") {
             return Command::ACommand;
         }
 
-        if current_command.contains("=") || current_command.contains(";") {
+        if command.contains("=") || command.contains(";") {
             return Command::CCommand;
         }
 
         Command::LCommand
     }
+
+    // fn symbol(&self) -> String {
+    //     match self.command_type {
+    //         ACommand => {
+                
+    //         }
+    //     }
+    // }
 }
