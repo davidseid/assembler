@@ -109,6 +109,13 @@ impl Parser {
 
     fn dest(&self) -> String {
         let command = self.current_command.as_ref().unwrap();
-        command.to_string().split("=").collect::<Vec<&str>>().first().unwrap().to_string()
+        command.split("=").collect::<Vec<&str>>().first().unwrap().to_string()
+    }
+
+    fn comp(&self) -> String {
+        let command = self.current_command.as_ref().unwrap();
+        let components = command.split(";").collect::<Vec<&str>>();
+
+        components[1].to_string()
     }
 }
