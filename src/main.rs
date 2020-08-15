@@ -98,11 +98,13 @@ impl Parser {
         Command::LCommand
     }
 
-    // fn symbol(&self) -> String {
-    //     match self.command_type {
-    //         ACommand => {
-                
-    //         }
-    //     }
-    // }
+    fn symbol(&self) -> String {
+
+        let command = self.current_command.as_ref().unwrap();
+        match self.command_type() {
+            Command::ACommand => command.trim_start_matches("@").to_string(),
+            Command::LCommand => command.to_string(),
+            _ => command.to_string(),
+        }
+    }
 }
