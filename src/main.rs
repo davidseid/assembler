@@ -10,15 +10,6 @@ fn main() {
     println!("Parsing assembly file: {}", &args[1]);
     let mut file_parser = Parser::new(&args[1]);
 
-    // while it has more lines
-    // print each line
-    // print get the command type
-    // if the command type is A or L
-    // get the symbol
-    // if the command type is C
-    // get comp, dest, jump
-    // advance
-
     while file_parser.has_more_commands() {
         file_parser.advance();
         let command_type = file_parser.command_type();
