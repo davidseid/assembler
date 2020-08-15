@@ -21,10 +21,23 @@ fn main() {
 
     while file_parser.has_more_commands() {
         file_parser.advance();
+        let command_type = file_parser.command_type();
+
+        println!("{:?}", command_type);
+
+        match command_type {
+            Command::ACommand | Command::LCommand => println!("Symbol {}", file_parser.symbol()),
+            Command::CCommand => {
+                println!("Dest {}", file_parser.dest());
+                println!("Comp {}", file_parser.comp());
+                println!("Jump {}", file_parser.jump());
+            }
+        }
     }
 
 }
 
+#[derive(Debug)]
 enum Command {
     ACommand,
     CCommand,
@@ -68,8 +81,6 @@ impl Parser {
     }
 
     fn has_more_commands(&self) -> bool {
-
-        println!("{:?}", self.current_command_index);
         match self.current_command_index {
             Some(index) => index < self.lines.len(),
             None => true,
@@ -124,11 +135,21 @@ impl Parser {
         let command = self.current_command.as_ref().unwrap();
         let components = command.split(";").collect::<Vec<&str>>();
 
-        components[1].to_string()
+        if components.len() > 1 {
+            return components[0].split("=").collect::<Vec<&str>>().last().unwrap().to_string();
+        } else {
+            return String::from("");
+        }
     }
 
     fn jump(&self) -> String {
         let command = self.current_command.as_ref().unwrap();
-        command.split(";").collect::<Vec<&str>>().last().unwrap().to_string()
+        let components = command.split(";").collect::<Vec<&str>>();
+
+        if components.len() > 1 {
+            return components.last().unwrap().to_string();
+        } else {
+            return String::from("");
+        }
     }
 }
