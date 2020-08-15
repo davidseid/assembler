@@ -50,15 +50,16 @@ impl Parser {
     }
 
     fn has_more_commands(&self) -> bool {
-
         match self.current_command_index {
             Some(index) => index < self.lines.len(),
             None => true,
         }
     }
 
-    // fn advance(mut &self) {
-        
-    // }
-
+    fn advance(&mut self) {
+        match self.current_command_index {
+            Some(index) => self.current_command_index = Some(index+1),
+            None => (),
+        }
+    }
 }
