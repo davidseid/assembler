@@ -23,14 +23,17 @@ fn main() {
         file_parser.advance();
         let command_type = file_parser.command_type();
 
+        let command = &file_parser.current_command;
+        println!("\n{:?}", command.as_ref().unwrap());
+
         println!("{:?}", command_type);
 
         match command_type {
             Command::ACommand | Command::LCommand => println!("Symbol {}", file_parser.symbol()),
             Command::CCommand => {
-                println!("Dest {}", file_parser.dest());
-                println!("Comp {}", file_parser.comp());
-                println!("Jump {}", file_parser.jump());
+                println!("Dest {:?}", file_parser.dest());
+                println!("Comp {:?}", file_parser.comp());
+                println!("Jump {:?}", file_parser.jump());
             }
         }
     }
@@ -68,7 +71,6 @@ impl Parser {
                     continue;
                 }
 
-                println!("{}", line);
                 lines.push(line);
             }
         }
@@ -126,30 +128,37 @@ impl Parser {
         }
     }
 
-    fn dest(&self) -> String {
+    fn dest(&self) -> Option<String> {
         let command = self.current_command.as_ref().unwrap();
-        command.split("=").collect::<Vec<&str>>().first().unwrap().to_string()
+
+        if command.contains("=") {
+            return Some(command.split("=").collect::<Vec<&str>>().first().unwrap().to_string());
+        }
+
+        None
     }
 
-    fn comp(&self) -> String {
-        let command = self.current_command.as_ref().unwrap();
-        let components = command.split(";").collect::<Vec<&str>>();
+    fn comp(&self) -> Option<String> {
+        let mut command = self.current_command.as_ref().unwrap().clone();
 
-        if components.len() > 1 {
-            return components[0].split("=").collect::<Vec<&str>>().last().unwrap().to_string();
-        } else {
-            return String::from("");
+        if command.contains("=") {
+            command = command.split("=").collect::<Vec<&str>>().last().unwrap().to_string();
         }
+
+        if command.contains(";") {
+            command = command.split(";").collect::<Vec<&str>>().first().unwrap().to_string();
+        }
+
+        Some(command.to_string())
     }
 
-    fn jump(&self) -> String {
+    fn jump(&self) -> Option<String> {
         let command = self.current_command.as_ref().unwrap();
-        let components = command.split(";").collect::<Vec<&str>>();
 
-        if components.len() > 1 {
-            return components.last().unwrap().to_string();
-        } else {
-            return String::from("");
+        if command.contains(";") {
+            return Some(command.split(";").collect::<Vec<&str>>().last().unwrap().to_string());
         }
+
+        None
     }
 }
