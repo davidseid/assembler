@@ -99,12 +99,16 @@ impl Parser {
     }
 
     fn symbol(&self) -> String {
-
         let command = self.current_command.as_ref().unwrap();
         match self.command_type() {
             Command::ACommand => command.trim_start_matches("@").to_string(),
             Command::LCommand => command.to_string(),
             _ => command.to_string(),
         }
+    }
+
+    fn dest(&self) -> String {
+        let command = self.current_command.as_ref().unwrap();
+        command.to_string().split("=").collect::<Vec<&str>>().first().unwrap().to_string()
     }
 }
