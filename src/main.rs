@@ -10,13 +10,19 @@ fn main() {
     println!("Parsing assembly file: {}", &args[1]);
     let mut file_parser = Parser::new(&args[1]);
 
-    let _more = file_parser.has_more_commands();
+    // while it has more lines
+    // print each line
+    // print get the command type
+    // if the command type is A or L
+    // get the symbol
+    // if the command type is C
+    // get comp, dest, jump
+    // advance
 
-    println!("{}",_more);
+    while file_parser.has_more_commands() {
+        file_parser.advance();
+    }
 
-    file_parser.advance();
-
-    file_parser.command_type();
 }
 
 enum Command {
@@ -62,6 +68,8 @@ impl Parser {
     }
 
     fn has_more_commands(&self) -> bool {
+
+        println!("{:?}", self.current_command_index);
         match self.current_command_index {
             Some(index) => index < self.lines.len(),
             None => true,
@@ -69,7 +77,6 @@ impl Parser {
     }
 
     fn advance(&mut self) {
-        println!("{:?}", self.current_command_index);
         match self.current_command_index {
             Some(index) => {
                 self.current_command_index = Some(index+1);
@@ -79,9 +86,10 @@ impl Parser {
             }
         }
 
-        let command_ref = &self.lines[self.current_command_index.unwrap()];
-        self.current_command = Some(String::from(command_ref));
-
+        if self.has_more_commands() {
+            let command_ref = &self.lines[self.current_command_index.unwrap()];
+            self.current_command = Some(String::from(command_ref));
+        }
     }
 
     fn command_type(&self) -> Command {
