@@ -118,4 +118,9 @@ impl Parser {
 
         components[1].to_string()
     }
+
+    fn jump(&self) -> String {
+        let command = self.current_command.as_ref().unwrap();
+        command.split(";").collect::<Vec<&str>>().last().unwrap().to_string()
+    }
 }
