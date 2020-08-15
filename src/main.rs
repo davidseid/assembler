@@ -19,6 +19,12 @@ fn main() {
     file_parser.command_type();
 }
 
+enum Command {
+    ACommand,
+    CCommand,
+    LCommand,
+}
+
 struct Parser {
     lines: Vec<String>,
     current_command_index: Option<usize>
@@ -68,7 +74,7 @@ impl Parser {
         }
     }
 
-    fn command_type(&self) -> String {
+    fn command_type(&self) -> Command {
 
         let index = self.current_command_index.unwrap();
         println!("{:?}", index);
@@ -76,13 +82,13 @@ impl Parser {
         println!("{:?}", current_command);
 
         if current_command.starts_with("@") {
-            return String::from("A_COMMAND");
+            return Command::ACommand;
         }
 
         if current_command.contains("=") || current_command.contains(";") {
-            return String::from("C_COMMAND");
+            return Command::CCommand;
         }
 
-        String::from("L_COMMAND")
+        Command::LCommand
     }
 }
