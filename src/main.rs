@@ -77,9 +77,7 @@ impl Parser {
     fn command_type(&self) -> Command {
 
         let index = self.current_command_index.unwrap();
-        println!("{:?}", index);
         let current_command = &self.lines[index];
-        println!("{:?}", current_command);
 
         if current_command.starts_with("@") {
             return Command::ACommand;
