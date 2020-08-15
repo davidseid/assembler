@@ -8,11 +8,15 @@ fn main() {
     let args: Vec<String> = env::args().collect();
 
     println!("Parsing assembly file: {}", &args[1]);
-    let file_parser = Parser::new(&args[1]);
+    let mut file_parser = Parser::new(&args[1]);
 
     let _more = file_parser.has_more_commands();
 
-    println!("{}",_more)
+    println!("{}",_more);
+
+    file_parser.advance();
+
+    file_parser.command_type();
 }
 
 struct Parser {
@@ -57,9 +61,28 @@ impl Parser {
     }
 
     fn advance(&mut self) {
+        println!("{:?}", self.current_command_index);
         match self.current_command_index {
             Some(index) => self.current_command_index = Some(index+1),
-            None => (),
+            None => self.current_command_index = Some(0),
         }
+    }
+
+    fn command_type(&self) -> String {
+
+        let index = self.current_command_index.unwrap();
+        println!("{:?}", index);
+        let current_command = &self.lines[index];
+        println!("{:?}", current_command);
+
+        if current_command.starts_with("@") {
+            return String::from("A_COMMAND");
+        }
+
+        if current_command.contains("=") || current_command.contains(";") {
+            return String::from("C_COMMAND");
+        }
+
+        String::from("L_COMMAND")
     }
 }
