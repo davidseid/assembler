@@ -1,7 +1,6 @@
 use std::fs::File;
 use std::io::{BufReader, BufRead};
 
-
 #[derive(Debug)]
 pub enum Command {
     ACommand,
