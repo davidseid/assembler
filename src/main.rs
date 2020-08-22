@@ -1,5 +1,6 @@
 
 mod parser;
+mod code;
 use std::env;
 
 fn main() {
@@ -28,6 +29,5 @@ fn main() {
             }
         }
     }
-
 }
 
