@@ -30,13 +30,8 @@ fn turn_on_bits(comp_bits: &mut Vec<usize>, on_bits: Vec<usize>) {
 }
 
 pub fn comp(mnemonic: Option<String>) -> String {
-
-    // make vector of length 8, all zeros
-    // make helper that accepts vector of indices to turn on
-    // iterate through and turn them on
-
     let mut a = 0;
-    let mut compBits = vec![0, 0, 0, 0, 0, 0, 0];
+    let mut comp_bits = vec![0, 0, 0, 0, 0, 0, 0];
 
     let comp = mnemonic.unwrap();
 
@@ -45,7 +40,7 @@ pub fn comp(mnemonic: Option<String>) -> String {
     }
 
     match comp.as_str() {
-        "0" => turn_on_bits(&mut compBits, vec![1, 3, 5]),
+        "0" => turn_on_bits(&mut comp_bits, vec![1, 3, 5]),
         _ => println!("WORNG"),
     }
 
