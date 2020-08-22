@@ -29,5 +29,7 @@ fn main() {
             }
         }
     }
+
+    code::comp(Some(String::from("0")));
 }
 
