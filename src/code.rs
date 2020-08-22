@@ -31,7 +31,7 @@ fn turn_on_bits(comp_bits: &mut Vec<usize>, on_bits: Vec<usize>) {
 
 pub fn comp(mnemonic: Option<String>) -> String {
     let mut a = 0;
-    let mut comp_bits = vec![0, 0, 0, 0, 0, 0, 0];
+    let mut comp_bits = vec![0, 0, 0, 0, 0, 0];
 
     let comp = mnemonic.unwrap();
 
@@ -40,9 +40,26 @@ pub fn comp(mnemonic: Option<String>) -> String {
     }
 
     match comp.as_str() {
-        "0" => turn_on_bits(&mut comp_bits, vec![1, 3, 5]),
-        _ => println!("WORNG"),
+        "0" => turn_on_bits(&mut comp_bits, vec![0, 2, 4]),
+        "1" => turn_on_bits(&mut comp_bits, vec![0, 1, 2, 3, 4, 5]),
+        "-1" => turn_on_bits(&mut comp_bits, vec![0, 1, 2, 4]),
+        "D" => turn_on_bits(&mut comp_bits, vec![2, 3]),
+        "A" | "M" => turn_on_bits(&mut comp_bits, vec![0, 1]),
+        "!D" => turn_on_bits(&mut comp_bits, vec![2, 3, 5]),
+        "!A" | "!M" => turn_on_bits(&mut comp_bits, vec![0, 1, 5]),
+        "-D" => turn_on_bits(&mut comp_bits, vec![2, 3, 4, 5]),
+        "-A" | "-M" => turn_on_bits(&mut comp_bits, vec![0, 1, 4, 5]),
+        "D+1" => turn_on_bits(&mut comp_bits, vec![1, 2, 3, 4, 5]),
+        "A+1" | "M+1" => turn_on_bits(&mut comp_bits, vec![0, 1, 3, 4, 5]),
+        "D-1" => turn_on_bits(&mut comp_bits, vec![2, 3, 4]),
+        "A-1" | "M-1" => turn_on_bits(&mut comp_bits, vec![0, 1, 4]),
+        "D+A" | "D+M" => turn_on_bits(&mut comp_bits, vec![4]),
+        "D-A" | "D-M" => turn_on_bits(&mut comp_bits, vec![1, 4, 5]),
+        "A-D" | "M-D" => turn_on_bits(&mut comp_bits, vec![3, 4, 5]),
+        "D&A" | "D&M" => {},
+        "D|A" | "D|M" => turn_on_bits(&mut comp_bits, vec![1, 3, 5]),
+        _ => {},
     }
 
-    format!("blah")
+    format!("{}{}", a, comp_bits.into_iter().map(|i| i.to_string()).collect::<String>())
 }

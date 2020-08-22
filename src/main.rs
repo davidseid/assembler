@@ -30,6 +30,7 @@ fn main() {
         }
     }
 
-    code::comp(Some(String::from("0")));
+    let code_bits = code::comp(Some(String::from("D|M")));
+    println!("{}", code_bits);
 }
 
