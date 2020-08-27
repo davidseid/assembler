@@ -3,9 +3,6 @@ mod parser;
 mod code;
 use std::env;
 use std::fs;
-use std::io::prelude::*;
-
-
 
 fn main() {
     println!("Assembler starting up...");
@@ -21,15 +18,11 @@ fn main() {
     let binary_filename = format!("{}.hack", filename_prefix);
 
     println!("Opening binary file for writing: {}", binary_filename);
-    let mut hack_file = fs::OpenOptions::new()
+    let hack_file = fs::OpenOptions::new()
         .append(true)
         .create(true)
-        .open("Add.hack")
+        .open(binary_filename)
         .unwrap();
-
-    if let Err(e) = writeln!(hack_file, "some text") {
-        eprintln!("Couldn't write to file: {}", e);
-    }
 
     while file_parser.has_more_commands() {
         file_parser.advance();
