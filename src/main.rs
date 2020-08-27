@@ -11,9 +11,13 @@ fn main() {
     println!("Assembler starting up...");
 
     let args: Vec<String> = env::args().collect();
+    let assemblyFilename = &args[1];
 
-    println!("Parsing assembly file: {}", &args[1]);
-    let mut file_parser = parser::new(&args[1]);
+    println!("Parsing assembly file: {}", assemblyFilename);
+    let mut file_parser = parser::new(assemblyFilename);
+
+    let fileNamePrefix = assemblyFilename.split(".").collect::<Vec<&str>>().first().unwrap().to_string();
+    println!("{:?}", fileNamePrefix);
 
     println!("Opening binary file for writing: Add.hack");
     let mut hack_file = fs::OpenOptions::new()
