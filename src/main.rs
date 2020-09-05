@@ -41,12 +41,21 @@ fn main() {
                 writeln!(hack_file, "{}", &binary);
             },
             parser::Command::LCommand => {
-                println!("Symbol {}", file_parser.symbol());
+                println!("LOOP {}", file_parser.symbol());
             },
             parser::Command::CCommand => {
                 println!("Dest {:?}", file_parser.dest());
                 println!("Comp {:?}", file_parser.comp());
                 println!("Jump {:?}", file_parser.jump());
+
+                let comp_bits = code::comp(file_parser.comp());
+                let dest_bits = code::dest(file_parser.dest());
+                let jump_bits = code::jump(file_parser.jump());
+
+                // let mut binary = format!("111{}{}{}", comp_bits, dest_bits, jump_bits);
+                // println!("{}", binary);
+
+                // writeln!(hack_file, "{}", &binary);
             }
         }
     }

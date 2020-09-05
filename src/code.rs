@@ -30,17 +30,17 @@ fn turn_on_bits(target_bits: &mut Vec<usize>, on_bits: Vec<usize>) {
 pub fn jump(mnemonic: Option<String>) -> String {
     let mut jump_bits = vec![0, 0, 0];
 
-    let jump = mnemonic.unwrap();
-
-    match jump.as_str() {
-        "JGT" => turn_on_bits(&mut jump_bits, vec![2]),
-        "JEQ" => turn_on_bits(&mut jump_bits, vec![1]),
-        "JGE" => turn_on_bits(&mut jump_bits, vec![1, 2]),
-        "JLT" => turn_on_bits(&mut jump_bits, vec![0]),
-        "JNE" => turn_on_bits(&mut jump_bits, vec![0, 2]),
-        "JLE" => turn_on_bits(&mut jump_bits, vec![0, 1]),
-        "JMP" => turn_on_bits(&mut jump_bits, vec![0, 1, 2]),
-        _ => {},
+    if let Some(jump) = mnemonic {
+        match jump.as_str() {
+            "JGT" => turn_on_bits(&mut jump_bits, vec![2]),
+            "JEQ" => turn_on_bits(&mut jump_bits, vec![1]),
+            "JGE" => turn_on_bits(&mut jump_bits, vec![1, 2]),
+            "JLT" => turn_on_bits(&mut jump_bits, vec![0]),
+            "JNE" => turn_on_bits(&mut jump_bits, vec![0, 2]),
+            "JLE" => turn_on_bits(&mut jump_bits, vec![0, 1]),
+            "JMP" => turn_on_bits(&mut jump_bits, vec![0, 1, 2]),
+            _ => {},
+        }
     }
 
     format!("{}", jump_bits.into_iter().map(|i| i.to_string()).collect::<String>())
