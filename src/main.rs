@@ -19,8 +19,6 @@ fn main() {
 
     let binary_filename = format!("{}.hack", filename_prefix);
 
-    println!("Opening binary file for writing: {}", binary_filename);
-
     if Path::new(&binary_filename).exists() {
         fs::remove_file(&binary_filename);
     }
@@ -29,7 +27,7 @@ fn main() {
         .create(true)
         .read(true)
         .append(true)
-        .open(binary_filename)
+        .open(&binary_filename)
         .unwrap();
 
     while file_parser.has_more_commands() {
@@ -37,31 +35,21 @@ fn main() {
         let command_type = file_parser.command_type();
 
         let command = &file_parser.current_command;
-        println!("\n{:?}", command.as_ref().unwrap());
 
-        println!("{:?}", command_type);
 
         match command_type {
             parser::Command::ACommand => {
-                println!("A Command {}", file_parser.symbol());
                 let binary = format!("{:016b}", file_parser.symbol().parse::<i32>().unwrap());
                 writeln!(hack_file, "{}", &binary);
             },
             parser::Command::LCommand => {
-                println!("Loop {}", file_parser.symbol());
             },
             parser::Command::CCommand => {
-                println!("Dest {:?}", file_parser.dest());
-                println!("Comp {:?}", file_parser.comp());
-                println!("Jump {:?}", file_parser.jump());
-
                 let comp_bits = code::comp(file_parser.comp());
                 let dest_bits = code::dest(file_parser.dest());
                 let jump_bits = code::jump(file_parser.jump());
 
                 let binary = format!("111{}{}{}", comp_bits, dest_bits, jump_bits);
-                println!("{}", binary);
-
                 writeln!(hack_file, "{}", &binary);
             }
         }
@@ -70,6 +58,7 @@ fn main() {
     hack_file.seek(SeekFrom::Start(0));
     let reader = BufReader::new(hack_file);
 
+    println!("\n\n{} file written...", &binary_filename);
     for line in reader.lines() {
         println!("{}", line.unwrap());
     }
