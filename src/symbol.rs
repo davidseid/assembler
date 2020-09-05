@@ -32,7 +32,7 @@ impl SymbolTable {
         self.add_entry(String::from("SCREEN"), 16384);
         self.add_entry(String::from("KBD"), 24576);
 
-        for i in 0..15 {
+        for i in 0..16 {
             let key = String::from(format!{"R{}", i});
             self.add_entry(key, i);
         }
