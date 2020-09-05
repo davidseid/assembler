@@ -14,6 +14,8 @@ fn main() {
     let assembly_filename = &args[1];
 
     println!("Parsing assembly file: {}", assembly_filename);
+
+    let mut first_pass_parser = parser::new(assembly_filename);
     let mut file_parser = parser::new(assembly_filename);
 
     let filename_prefix = assembly_filename.split(".").collect::<Vec<&str>>().first().unwrap().to_string();
@@ -31,18 +33,25 @@ fn main() {
         .open(&binary_filename)
         .unwrap();
 
-    // initialize empty symbol table
     let mut symbol_table = symbol::new();
     symbol_table.add_predefined();
-    // add predefined symbols
-    // do first pass to process symbols in table
-    // do second pass to write code
+
+    let mut rom_address = 0;
+
+    while first_pass_parser.has_more_commands() {
+        first_pass_parser.advance();
+        let command_type = file_parser.command_type();
+
+        match command_type {
+            parser::Command::ACommand => rom_address+=1,
+            parser::Command::LCommand => symbol_table.add_entry(first_pass_parser.symbol(), rom_address),
+            parser::Command::CCommand => rom_address+=1,
+        }
+    }
 
     while file_parser.has_more_commands() {
         file_parser.advance();
         let command_type = file_parser.command_type();
-
-        let command = &file_parser.current_command;
 
         match command_type {
             parser::Command::ACommand => {

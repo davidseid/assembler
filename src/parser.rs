@@ -83,7 +83,7 @@ impl Parser {
         let command = self.current_command.as_ref().unwrap();
         match self.command_type() {
             Command::ACommand => command.trim_start_matches("@").to_string(),
-            Command::LCommand => command.to_string(),
+            Command::LCommand => command.strip_prefix("(").unwrap().strip_suffix(")").unwrap().to_string(),
             _ => command.to_string(),
         }
     }
