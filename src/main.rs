@@ -31,6 +31,13 @@ fn main() {
         .open(&binary_filename)
         .unwrap();
 
+    // initialize empty symbol table
+    let mut symbol_table = symbol::new();
+    symbol_table.add_predefined();
+    // add predefined symbols
+    // do first pass to process symbols in table
+    // do second pass to write code
+
     while file_parser.has_more_commands() {
         file_parser.advance();
         let command_type = file_parser.command_type();
