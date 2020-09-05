@@ -40,7 +40,7 @@ fn main() {
 
     while first_pass_parser.has_more_commands() {
         first_pass_parser.advance();
-        let command_type = file_parser.command_type();
+        let command_type = first_pass_parser.command_type();
 
         match command_type {
             parser::Command::ACommand => rom_address+=1,
@@ -48,6 +48,8 @@ fn main() {
             parser::Command::CCommand => rom_address+=1,
         }
     }
+    
+    let mut ram_address = 16;
 
     while file_parser.has_more_commands() {
         file_parser.advance();
@@ -55,8 +57,23 @@ fn main() {
 
         match command_type {
             parser::Command::ACommand => {
-                let binary = format!("{:016b}", file_parser.symbol().parse::<i32>().unwrap());
+
+                let mut symbol = file_parser.symbol();
+                let symbol_ref = &symbol;
+
+                if !symbol_ref.chars().all(char::is_numeric) {
+
+                    if !symbol_table.contains(String::from(symbol_ref)) {
+                        symbol_table.add_entry(String::from(symbol_ref), ram_address);
+                        ram_address += 1;
+                    }
+                    let value = symbol_table.get_address(String::from(symbol_ref)).to_string();
+                    symbol = value;
+                } 
+
+                let binary = format!("{:016b}", symbol.parse::<i32>().unwrap());
                 writeln!(hack_file, "{}", &binary);
+
             },
             parser::Command::LCommand => {
             },
