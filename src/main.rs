@@ -1,6 +1,7 @@
 
 mod parser;
 mod code;
+mod symbol;
 use std::env;
 use std::fs;
 use std::io::{Write, BufRead, BufReader, Seek, SeekFrom};
