@@ -72,17 +72,27 @@ fn main() {
                 } 
 
                 let binary = format!("{:016b}", symbol.parse::<i32>().unwrap());
+                println!("Writing line {}, from symbol {}", &binary, &symbol);
                 writeln!(hack_file, "{}", &binary);
 
             },
-            parser::Command::LCommand => {
-            },
+            parser::Command::LCommand => {},
             parser::Command::CCommand => {
-                let comp_bits = code::comp(file_parser.comp());
-                let dest_bits = code::dest(file_parser.dest());
-                let jump_bits = code::jump(file_parser.jump());
+                let dest = file_parser.dest();
+                let comp = file_parser.comp();
+                let jump = file_parser.jump();
+                let comp_bits = code::comp(comp);
+                let dest_bits = code::dest(dest);
+                let jump_bits = code::jump(jump);
 
                 let binary = format!("111{}{}{}", comp_bits, dest_bits, jump_bits);
+                // println!("Writing line {}, from {:?}{:?}{:?}", &binary, file_parser.dest().unwrap(), file_parser.comp().unwrap(), file_parser.jump().unwrap());
+                println!("Writing line {}", &binary);
+                println!("From Command: {}", file_parser.current_command.as_ref().unwrap());
+                println!("Comp bits {}", &comp_bits);
+                println!("Dest bits {}", &dest_bits);
+                println!("Jump bits {}", &jump_bits);
+
                 writeln!(hack_file, "{}", &binary);
             }
         }

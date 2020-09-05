@@ -21,7 +21,7 @@ pub fn new(filename: &str) -> Parser {
     let mut lines = Vec::new();
 
     for line in reader.lines() {
-        if let Ok(line) = line {
+        if let Ok(mut line) = line {
             println!("{}", line);
 
             if line.starts_with("//") {
@@ -31,6 +31,9 @@ pub fn new(filename: &str) -> Parser {
             if line.is_empty() {
                 continue;
             }
+
+            line = line.split("//").collect::<Vec<&str>>().first().unwrap().to_string();
+            line = line.split_whitespace().collect::<String>();
 
             lines.push(line);
         }

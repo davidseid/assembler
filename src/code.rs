@@ -55,10 +55,15 @@ pub fn comp(mnemonic: Option<String>) -> String {
     if comp.contains("M") {
         a = 1;
     }
+    println!("COMP AS STR");
+    println!("{}", comp.as_str());
 
     match comp.as_str() {
         "0" => turn_on_bits(&mut comp_bits, vec![0, 2, 4]),
-        "1" => turn_on_bits(&mut comp_bits, vec![0, 1, 2, 3, 4, 5]),
+        "1" => {
+            println!("THIS RUNS?");
+            turn_on_bits(&mut comp_bits, vec![0, 1, 2, 3, 4, 5]);
+        },
         "-1" => turn_on_bits(&mut comp_bits, vec![0, 1, 2, 4]),
         "D" => turn_on_bits(&mut comp_bits, vec![2, 3]),
         "A" | "M" => turn_on_bits(&mut comp_bits, vec![0, 1]),
