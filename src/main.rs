@@ -52,10 +52,10 @@ fn main() {
                 let dest_bits = code::dest(file_parser.dest());
                 let jump_bits = code::jump(file_parser.jump());
 
-                // let mut binary = format!("111{}{}{}", comp_bits, dest_bits, jump_bits);
-                // println!("{}", binary);
+                let mut binary = format!("111{}{}{}", comp_bits, dest_bits, jump_bits);
+                println!("{}", binary);
 
-                // writeln!(hack_file, "{}", &binary);
+                writeln!(hack_file, "{}", &binary);
             }
         }
     }
