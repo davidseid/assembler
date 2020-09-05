@@ -3,7 +3,7 @@ mod parser;
 mod code;
 use std::env;
 use std::fs;
-use std::io::Write;
+use std::io::{Write, BufRead, BufReader, Seek, SeekFrom};
 use std::path::Path;
 
 fn main() {
@@ -28,17 +28,16 @@ fn main() {
 
     let mut hack_file = fs::OpenOptions::new()
         .create(true)
+        .read(true)
         .append(true)
         .open(binary_filename)
         .unwrap();
-
 
     while file_parser.has_more_commands() {
         file_parser.advance();
         let command_type = file_parser.command_type();
 
         let command = &file_parser.current_command;
-        println!("HERE IS THE CURRENT COMMAND");
         println!("\n{:?}", command.as_ref().unwrap());
 
         println!("{:?}", command_type);
@@ -69,7 +68,11 @@ fn main() {
         }
     }
 
-    let code_bits = code::comp(Some(String::from("D|M")));
-    println!("{}", code_bits);
+    hack_file.seek(SeekFrom::Start(0));
+    let reader = BufReader::new(hack_file);
+
+    for line in reader.lines() {
+        println!("{}", line.unwrap());
+    }
 }
 
