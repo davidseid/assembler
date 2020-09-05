@@ -4,6 +4,7 @@ mod code;
 use std::env;
 use std::fs;
 use std::io::Write;
+use std::path::Path;
 
 fn main() {
     println!("Assembler starting up...");
@@ -19,11 +20,18 @@ fn main() {
     let binary_filename = format!("{}.hack", filename_prefix);
 
     println!("Opening binary file for writing: {}", binary_filename);
+
+
+    if Path::new(&binary_filename).exists() {
+        fs::remove_file(&binary_filename);
+    }
+
     let mut hack_file = fs::OpenOptions::new()
-        .append(true)
         .create(true)
+        .append(true)
         .open(binary_filename)
         .unwrap();
+
 
     while file_parser.has_more_commands() {
         file_parser.advance();
