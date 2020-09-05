@@ -3,6 +3,7 @@ mod parser;
 mod code;
 use std::env;
 use std::fs;
+use std::io::Write;
 
 fn main() {
     println!("Assembler starting up...");
@@ -18,7 +19,7 @@ fn main() {
     let binary_filename = format!("{}.hack", filename_prefix);
 
     println!("Opening binary file for writing: {}", binary_filename);
-    let hack_file = fs::OpenOptions::new()
+    let mut hack_file = fs::OpenOptions::new()
         .append(true)
         .create(true)
         .open(binary_filename)
@@ -34,7 +35,14 @@ fn main() {
         println!("{:?}", command_type);
 
         match command_type {
-            parser::Command::ACommand | parser::Command::LCommand => println!("Symbol {}", file_parser.symbol()),
+            parser::Command::ACommand => {
+                println!("A Command {}", file_parser.symbol());
+                let binary = format!("{:016b}", file_parser.symbol().parse::<i32>().unwrap());
+                writeln!(hack_file, "{}", &binary);
+            },
+            parser::Command::LCommand => {
+                println!("Symbol {}", file_parser.symbol());
+            },
             parser::Command::CCommand => {
                 println!("Dest {:?}", file_parser.dest());
                 println!("Comp {:?}", file_parser.comp());
