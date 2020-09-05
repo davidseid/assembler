@@ -36,7 +36,6 @@ fn main() {
 
         let command = &file_parser.current_command;
 
-
         match command_type {
             parser::Command::ACommand => {
                 let binary = format!("{:016b}", file_parser.symbol().parse::<i32>().unwrap());
