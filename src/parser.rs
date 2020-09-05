@@ -45,7 +45,7 @@ pub fn new(filename: &str) -> Parser {
 impl Parser {
     pub fn has_more_commands(&self) -> bool {
         match self.current_command_index {
-            Some(index) => index < self.lines.len(),
+            Some(index) => index < self.lines.len() - 1,
             None => true,
         }
     }
@@ -60,10 +60,8 @@ impl Parser {
             }
         }
 
-        if self.has_more_commands() {
-            let command_ref = &self.lines[self.current_command_index.unwrap()];
-            self.current_command = Some(String::from(command_ref));
-        }
+        let command_ref = &self.lines[self.current_command_index.unwrap()];
+        self.current_command = Some(String::from(command_ref));
     }
 
     pub fn command_type(&self) -> Command {

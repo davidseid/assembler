@@ -30,6 +30,7 @@ fn main() {
         let command_type = file_parser.command_type();
 
         let command = &file_parser.current_command;
+        println!("HERE IS THE CURRENT COMMAND");
         println!("\n{:?}", command.as_ref().unwrap());
 
         println!("{:?}", command_type);
@@ -41,7 +42,7 @@ fn main() {
                 writeln!(hack_file, "{}", &binary);
             },
             parser::Command::LCommand => {
-                println!("LOOP {}", file_parser.symbol());
+                println!("Loop {}", file_parser.symbol());
             },
             parser::Command::CCommand => {
                 println!("Dest {:?}", file_parser.dest());
@@ -52,7 +53,7 @@ fn main() {
                 let dest_bits = code::dest(file_parser.dest());
                 let jump_bits = code::jump(file_parser.jump());
 
-                let mut binary = format!("111{}{}{}", comp_bits, dest_bits, jump_bits);
+                let binary = format!("111{}{}{}", comp_bits, dest_bits, jump_bits);
                 println!("{}", binary);
 
                 writeln!(hack_file, "{}", &binary);
