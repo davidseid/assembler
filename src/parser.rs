@@ -22,6 +22,7 @@ pub fn new(filename: &str) -> Parser {
 
     for line in reader.lines() {
         if let Ok(line) = line {
+            println!("{}", line);
 
             if line.starts_with("//") {
                 continue;

@@ -21,7 +21,6 @@ fn main() {
 
     println!("Opening binary file for writing: {}", binary_filename);
 
-
     if Path::new(&binary_filename).exists() {
         fs::remove_file(&binary_filename);
     }
@@ -75,4 +74,3 @@ fn main() {
         println!("{}", line.unwrap());
     }
 }
-
